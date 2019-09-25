@@ -1,5 +1,7 @@
 package bowling;
 
+import java.util.Arrays;
+
 /**
  * Cette classe a pour but d'enregistrer le nombre de quilles abattues lors des
  * lancés successifs d'<b>un seul et même</b> joueur, et de calculer le score
@@ -11,14 +13,12 @@ public class SinglePlayerGame {
         public boolean deuxiemeBoule;
         public int[] score;
         public int[] spareEtStrike;
-        public String dernierLancer;
         
 	public SinglePlayerGame() {
             this.tour = 0;
             this.deuxiemeBoule = false;
             this.score = new int[] {0,0,0,0,0,0,0,0,0,0};
             this.spareEtStrike = new int[]{0,0,0,0,0,0,0,0,0,0};
-            this.dernierLancer = "";
 	}
 
 	/**
@@ -30,10 +30,10 @@ public class SinglePlayerGame {
 	public void lancer(int nombreDeQuillesAbattues) {
             
             //Strike
-            if (this.tour<10){
+            if (this.tour<9){
 
                 if (nombreDeQuillesAbattues <10 && this.deuxiemeBoule == false){
-                    //premier lancer
+                    //premier lancer non strike
                     compterPoints(nombreDeQuillesAbattues);
                     this.deuxiemeBoule = true;
                 }
@@ -45,20 +45,15 @@ public class SinglePlayerGame {
 
                 }
             }
-            if (this.tour == 10){
-               if (this.spareEtStrike[9]==1){
-                   this.dernierLancer="spare";
-               }
-               if (this.spareEtStrike[9]==2){
-                   this.dernierLancer="strike";
-               }
-            }
             else{
+                compterPoints(nombreDeQuillesAbattues);
             }
 	}
         
         public void compterPoints(int pointsMarques){
-            this.score[tour] += pointsMarques;
+            if (tour<10){
+             this.score[tour] += pointsMarques;   
+            }
             if (this.score[tour] == 10 && this.deuxiemeBoule==true){
             this.spareEtStrike[tour] = 1;
         }
@@ -82,7 +77,11 @@ public class SinglePlayerGame {
                     else if(this.spareEtStrike[i] == 2){
                         total = total + this.score[i] + this.score[i+1] + this.score[i+2];
                     }
+                    else{
+                        total += this.score[i];
+                    }
                 }
-                return total;
+                total = total + this.score[8] +this.score[9];
+                return total; 
 	}
 }
