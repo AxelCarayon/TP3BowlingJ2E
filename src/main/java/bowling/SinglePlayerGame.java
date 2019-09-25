@@ -51,9 +51,7 @@ public class SinglePlayerGame {
 	}
         
         public void compterPoints(int pointsMarques){
-            if (tour<10){
-             this.score[tour] += pointsMarques;   
-            }
+            this.score[tour] += pointsMarques;
             if (this.score[tour] == 10 && this.deuxiemeBoule==true){
             this.spareEtStrike[tour] = 1;
         }
